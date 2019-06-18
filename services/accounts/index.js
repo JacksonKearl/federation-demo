@@ -21,7 +21,10 @@ const resolvers = {
   },
   User: {
     __resolveReference(reference) {
-      return users.find(user => user.id === reference.id);
+      if (reference.ssn)
+        return users.find(user => user.ssn === reference.ssn);
+      else
+        return users.find(user => user.id === reference.id);
     },
   },
 };
