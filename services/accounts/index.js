@@ -2,28 +2,28 @@ const { ApolloServer, gql } = require("apollo-server");
 const { buildFederatedSchema } = require("@apollo/federation");
 
 const typeDefs = gql`
-  extend type Query {
-    me: User
-  }
+   extend type Query {
+      users: [User!]!
+    }
 
-  type User @key(fields: "id") {
-    id: ID!
-    name: String
-    username: String
-  }
+    type User @key(fields: "ssn") @key(fields: "id") {
+      id: ID!
+      ssn: ID!
+      name: String!
+    }
 `;
 
 const resolvers = {
   Query: {
-    me() {
-      return users[0];
-    }
+    users() {
+      return users;
+    },
   },
   User: {
-    __resolveReference(object) {
-      return users.find(user => user.id === object.id);
-    }
-  }
+    __resolveReference(reference) {
+      return users.find(user => user.id === reference.id);
+    },
+  },
 };
 
 const server = new ApolloServer({
@@ -40,16 +40,8 @@ server.listen({ port: 4001 }).then(({ url }) => {
 });
 
 const users = [
-  {
-    id: "1",
-    name: "Ada Lovelace",
-    birthDate: "1815-12-10",
-    username: "@ada"
-  },
-  {
-    id: "2",
-    name: "Alan Turing",
-    birthDate: "1912-06-23",
-    username: "@complete"
-  }
+  { ssn: '111-11-1111', name: 'Trevor', id: '10', __typename: 'User' },
+  { ssn: '222-22-2222', name: 'Scheer', id: '20', __typename: 'User' },
+  { ssn: '333-33-3333', name: 'James', id: '30', __typename: 'User' },
+  { ssn: '444-44-4444', name: 'Baxley', id: '40', __typename: 'User' },
 ];
