@@ -6,8 +6,9 @@ const typeDefs = gql`
     topProducts(first: Int = 5): [Product]
   }
 
-  type Product @key(fields: "upc") {
+  type Product @key(fields: "upc") @key(fields: "sku") {
     upc: String!
+    sku: String!
     name: String
     price: Int
     weight: Int
@@ -17,7 +18,10 @@ const typeDefs = gql`
 const resolvers = {
   Product: {
     __resolveReference(object) {
-      return products.find(product => product.upc === object.upc);
+      if (object.upc)
+        return products.find(product => product.upc === object.upc);
+      else
+        return products.find(product => product.sku === object.sku);
     }
   },
   Query: {
@@ -43,18 +47,21 @@ server.listen({ port: 4003 }).then(({ url }) => {
 const products = [
   {
     upc: "1",
+    sku: "11",
     name: "Table",
     price: 899,
     weight: 100
   },
   {
     upc: "2",
+    sku: "22",
     name: "Couch",
     price: 1299,
     weight: 1000
   },
   {
     upc: "3",
+    sku: "33",
     name: "Chair",
     price: 54,
     weight: 50
