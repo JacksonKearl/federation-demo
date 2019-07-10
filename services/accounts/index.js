@@ -4,6 +4,7 @@ const { buildFederatedSchema } = require("@apollo/federation");
 const typeDefs = gql`
   extend type Query {
     me: User
+    allUsers: [User]
   }
 
   type User @key(fields: "id") {
@@ -13,10 +14,17 @@ const typeDefs = gql`
   }
 `;
 
+const delay = sec => new Promise(resolve => setTimeout(resolve, sec * 1000));
+
 const resolvers = {
   Query: {
-    me() {
+    async me() {
+      await delay(30);
       return users[0];
+    },
+    async allUsers() {
+      await delay(0.5);
+      return users;
     }
   },
   User: {
@@ -42,14 +50,12 @@ server.listen({ port: 4001 }).then(({ url }) => {
 const users = [
   {
     id: "1",
-    name: "Ada Lovelace",
-    birthDate: "1815-12-10",
-    username: "@ada"
+    name: "Jackson",
+    username: "@jacksonkearl"
   },
   {
     id: "2",
-    name: "Alan Turing",
-    birthDate: "1912-06-23",
-    username: "@complete"
+    name: "Jesse",
+    username: "@abernix"
   }
 ];
