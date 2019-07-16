@@ -1,5 +1,6 @@
 import { ApolloServer, gql } from "apollo-server";
 import { buildFederatedSchema } from "@apollo/federation";
+import { Resolvers } from "./types";
 
 const typeDefs = gql`
   extend type Query {
@@ -14,7 +15,7 @@ const typeDefs = gql`
   }
 `;
 
-const resolvers = {
+const resolvers: Resolvers = {
   Product: {
     __resolveReference(object) {
       return products.find(product => product.upc === object.upc);
