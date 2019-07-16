@@ -1,5 +1,6 @@
-const { ApolloServer, gql } = require("apollo-server");
-const { buildFederatedSchema } = require("@apollo/federation");
+import { ApolloServer, gql } from "apollo-server";
+import { buildFederatedSchema } from "@apollo/federation";
+import { Resolvers } from "./types";
 
 const typeDefs = gql`
   extend type Product @key(fields: "upc") {
@@ -11,7 +12,7 @@ const typeDefs = gql`
   }
 `;
 
-const resolvers = {
+const resolvers: Resolvers = {
   Product: {
     __resolveReference(object) {
       return {
@@ -21,6 +22,11 @@ const resolvers = {
     },
     shippingEstimate(object) {
       // free for expensive items
+      if (object.price == null || object.weight == null) {
+        throw new Error(
+          `Internal error: incomplete shipping data for product "${object.upc}"`
+        );
+      }
       if (object.price > 1000) return 0;
       // estimate is based on weight
       return object.weight * 0.5;

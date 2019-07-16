@@ -1,5 +1,6 @@
-const { ApolloServer, gql } = require("apollo-server");
-const { buildFederatedSchema } = require("@apollo/federation");
+import { ApolloServer, gql } from "apollo-server";
+import { buildFederatedSchema } from "@apollo/federation";
+import { Resolvers } from "./types";
 
 const typeDefs = gql`
   extend type Query {
@@ -16,7 +17,7 @@ const typeDefs = gql`
 
 const delay = sec => new Promise(resolve => setTimeout(resolve, sec * 1000));
 
-const resolvers = {
+const resolvers: Resolvers = {
   Query: {
     async me() {
       await delay(30);

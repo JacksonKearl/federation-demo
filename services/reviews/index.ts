@@ -1,5 +1,6 @@
-const { ApolloServer, gql } = require("apollo-server");
-const { buildFederatedSchema } = require("@apollo/federation");
+import { ApolloServer, gql } from "apollo-server";
+import { buildFederatedSchema } from "@apollo/federation";
+import { Resolvers } from "./types";
 
 const typeDefs = gql`
   type Review @key(fields: "id") {
@@ -12,6 +13,7 @@ const typeDefs = gql`
   extend type User @key(fields: "id") {
     id: ID! @external
     username: String @external
+    numberOfReviews: Int!
     reviews: [Review]
   }
 
@@ -21,7 +23,7 @@ const typeDefs = gql`
   }
 `;
 
-const resolvers = {
+const resolvers: Resolvers = {
   Review: {
     author(review) {
       return { __typename: "User", id: review.authorID };

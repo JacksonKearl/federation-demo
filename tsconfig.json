@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": false,
+    "target": "es2019",
+    "module": "commonjs",
+    "outDir": "build"
+  }
+}
