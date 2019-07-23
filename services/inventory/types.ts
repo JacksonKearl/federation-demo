@@ -17,12 +17,12 @@ type ProductRepresentation<TInternalReps extends Record<string, any>> = Index<
   "Product",
   {}
 > &
-  ({ upc: string });
+  ({ sku: string });
 
 export type Product<TInternalReps = {}> = ProductRepresentation<
   TInternalReps
 > & {
-  upc?: string;
+  sku?: string;
   weight?: Nullable<number>;
   price?: Nullable<number>;
   inStock?: Nullable<boolean>;

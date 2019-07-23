@@ -3,8 +3,8 @@ import { buildFederatedSchema } from "@apollo/federation";
 import { Resolvers } from "./types";
 
 const typeDefs = gql`
-  extend type Product @key(fields: "upc") {
-    upc: String! @external
+  extend type Product @key(fields: "sku") {
+    sku: String! @external
     weight: Int @external
     price: Int @external
     inStock: Boolean
@@ -17,14 +17,14 @@ const resolvers: Resolvers = {
     __resolveReference(object) {
       return {
         ...object,
-        ...inventory.find(product => product.upc === object.upc)
+        ...inventory.find(product => product.sku === object.sku)
       };
     },
     shippingEstimate(object) {
       // free for expensive items
       if (object.price == null || object.weight == null) {
         throw new Error(
-          `Internal error: incomplete shipping data for product "${object.upc}"`
+          `Internal error: incomplete shipping data for product "${object.sku}"`
         );
       }
       if (object.price > 1000) return 0;
@@ -48,7 +48,7 @@ server.listen({ port: 4004 }).then(({ url }) => {
 });
 
 const inventory = [
-  { upc: "1", inStock: true },
-  { upc: "2", inStock: false },
-  { upc: "3", inStock: true }
+  { sku: "sku1", inStock: true },
+  { sku: "sku2", inStock: false },
+  { sku: "sku3", inStock: true }
 ];

@@ -29,12 +29,13 @@ type ProductRepresentation<TInternalReps extends Record<string, any>> = Index<
   "Product",
   {}
 > &
-  ({ upc: string });
+  ({ upc: string } | { sku: string });
 
 export type Product<TInternalReps = {}> = ProductRepresentation<
   TInternalReps
 > & {
   upc?: string;
+  sku?: string;
   name?: Nullable<string>;
   price?: Nullable<number>;
   weight?: Nullable<number>;
@@ -49,6 +50,12 @@ export interface ProductResolver<TContext = {}, TInternalReps = {}> {
     info: any
   ) => PromiseOrValue<Nullable<Product>>;
   upc?: (
+    parent: ProductRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<string>;
+  sku?: (
     parent: ProductRepresentation<TInternalReps>,
     args: {},
     context: TContext,
