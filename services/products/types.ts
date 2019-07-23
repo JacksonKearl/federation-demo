@@ -1,52 +1,74 @@
-// Add here any additional internal typings that resolvers might access
-// These will be preserved across calls to `apollo server:codegen`
-
-type ProductInternalRepresentation = {};
-
-//// Machine generated types below this line:
-// Use `apollo server:codegen` to reconstruct
+// This is a machine generated file.
+// Use "apollo service:codegen" to regenerate.
 type PromiseOrValue<T> = Promise<T> | T;
+type Nullable<T> = T | null | undefined;
+type Index<
+  Map extends Record<string, any>,
+  Key extends string,
+  Else
+> = Map[Key] extends object ? Map[Key] : Else;
 
-type rNil = undefined | null;
-type tNil = null;
+export interface Resolvers<TContext = {}, TInternalReps = {}> {
+  Query: QueryResolver<TContext, TInternalReps>;
+  Product?: ProductResolver<TContext, TInternalReps>;
+}
 
-type ResolverFunction<TContext, TReturn, TParent = any, TArgs = {}> = (
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: any
-) => PromiseOrValue<TReturn>;
+export interface QueryResolver<TContext = {}, TInternalReps = {}> {
+  topProducts: (
+    parent: any,
+    args: {
+      first?: number;
+    },
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<Array<Nullable<Product>>>>;
+}
 
-export type Resolvers<TContext = {}> = {
-  Query: QueryResolver<TContext>;
-  Product: ProductResolver<TContext>;
+type ProductRepresentation<TInternalReps extends Record<string, any>> = (Index<
+  TInternalReps,
+  "Product",
+  {}
+>) & { upc: string };
+
+export type Product<TInternalReps = {}> = ProductRepresentation<
+  TInternalReps
+> & {
+  upc?: string;
+  name?: Nullable<string>;
+  price?: Nullable<number>;
+  weight?: Nullable<number>;
 };
-
-export type QueryResolver<TContext> = {
-  topProducts: ResolverFunction<
-    TContext,
-    (Product | rNil)[] | rNil,
-    any,
-    { first: number }
-  >;
-};
-
-export type ProductResolver<TContext> = {
-  __resolveReference?: ResolverFunction<
-    TContext,
-    Product | rNil,
-    ProductRepresentation
-  >;
-  name?: ResolverFunction<TContext, string | rNil, ProductRepresentation>;
-  price?: ResolverFunction<TContext, number | rNil, ProductRepresentation>;
-  weight?: ResolverFunction<TContext, number | rNil, ProductRepresentation>;
-};
-
-export type ProductRepresentation = {
-  upc: string;
-} & ProductInternalRepresentation;
-export type Product = ProductRepresentation & {
-  name?: String | tNil;
-  price?: number | tNil;
-  weight?: number | tNil;
-};
+export interface ProductResolver<TContext = {}, TInternalReps = {}> {
+  __resolveReference?: (
+    parent: ProductRepresentation<{
+      /* explicity don't pass TInternalReps */
+    }>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<Product>>;
+  upc?: (
+    parent: ProductRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<string>;
+  name?: (
+    parent: ProductRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<string>>;
+  price?: (
+    parent: ProductRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<number>>;
+  weight?: (
+    parent: ProductRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<number>>;
+}

@@ -23,7 +23,7 @@ const typeDefs = gql`
   }
 `;
 
-const resolvers: Resolvers = {
+const resolvers: Resolvers<{}> = {
   Review: {
     author(review) {
       return { __typename: "User", id: review.authorID };

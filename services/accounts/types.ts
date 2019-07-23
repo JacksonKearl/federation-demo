@@ -1,46 +1,69 @@
-// Add here any additional internal typings that resolvers might access
-// These will be preserved across calls to `apollo server:codegen`
-
-type UserInternalRepresentation = {};
-
-//// Machine generated types below this line:
-// Use `apollo server:codegen` to reconstruct
+// This is a machine generated file.
+// Use "apollo service:codegen" to regenerate.
 type PromiseOrValue<T> = Promise<T> | T;
+type Nullable<T> = T | null | undefined;
+type Index<
+  Map extends Record<string, any>,
+  Key extends string,
+  Else
+> = Map[Key] extends object ? Map[Key] : Else;
 
-type rNil = undefined | null;
-type tNil = null;
+export interface Resolvers<TContext = {}, TInternalReps = {}> {
+  Query: QueryResolver<TContext, TInternalReps>;
+  User?: UserResolver<TContext, TInternalReps>;
+}
 
-export type Resolvers<TContext = {}> = {
-  Query: QueryResolver<TContext>;
-  User: UserResolver<TContext>;
+export interface QueryResolver<TContext = {}, TInternalReps = {}> {
+  me: (
+    parent: any,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<User>>;
+  allUsers: (
+    parent: any,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<Array<Nullable<User>>>>;
+}
+
+type UserRepresentation<TInternalReps extends Record<string, any>> = (Index<
+  TInternalReps,
+  "User",
+  {}
+>) & { id: string };
+
+export type User<TInternalReps = {}> = UserRepresentation<TInternalReps> & {
+  id?: string;
+  name?: Nullable<string>;
+  username?: Nullable<string>;
 };
-
-type ResolverFunction<TContext, TReturn, TParent = any, TArgs = {}> = (
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: any
-) => PromiseOrValue<TReturn>;
-
-export type QueryResolver<TContext> = {
-  me: ResolverFunction<TContext, User | rNil>;
-  allUsers: ResolverFunction<TContext, (User | rNil)[] | rNil>;
-};
-
-export type UserResolver<TContext> = {
-  __resolveReference?: ResolverFunction<
-    TContext,
-    User | rNil,
-    UserRepresentation
-  >;
-  id?: ResolverFunction<TContext, string, UserRepresentation>;
-  name?: ResolverFunction<TContext, string | rNil, UserRepresentation>;
-  username?: ResolverFunction<TContext, string | rNil, UserRepresentation>;
-};
-
-export type UserRepresentation = { id: string } & UserInternalRepresentation;
-export type User = UserRepresentation & {
-  id?: string | tNil;
-  name?: string | tNil;
-  username?: string | tNil;
-};
+export interface UserResolver<TContext = {}, TInternalReps = {}> {
+  __resolveReference?: (
+    parent: UserRepresentation<{
+      /* explicity don't pass TInternalReps */
+    }>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<User>>;
+  id?: (
+    parent: UserRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<string>;
+  name?: (
+    parent: UserRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<string>>;
+  username?: (
+    parent: UserRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<string>>;
+}
