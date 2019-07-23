@@ -5,8 +5,8 @@ type Nullable<T> = T | null | undefined;
 type Index<
   Map extends Record<string, any>,
   Key extends string,
-  Else
-> = Map[Key] extends object ? Map[Key] : Else;
+  IfMissing
+> = Map[Key] extends object ? Map[Key] : IfMissing;
 
 export interface Resolvers<TContext = {}, TInternalReps = {}> {
   Query: QueryResolver<TContext, TInternalReps>;
@@ -24,11 +24,12 @@ export interface QueryResolver<TContext = {}, TInternalReps = {}> {
   ) => PromiseOrValue<Nullable<Array<Nullable<Product>>>>;
 }
 
-type ProductRepresentation<TInternalReps extends Record<string, any>> = (Index<
+type ProductRepresentation<TInternalReps extends Record<string, any>> = Index<
   TInternalReps,
   "Product",
   {}
->) & { upc: string };
+> &
+  ({ upc: string });
 
 export type Product<TInternalReps = {}> = ProductRepresentation<
   TInternalReps

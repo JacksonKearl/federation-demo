@@ -1,78 +1,135 @@
-// Add here any additional internal typings that resolvers might access
-// These will be preserved across calls to `apollo server:codegen`
-
-type ReviewInternalRepresentation = { authorID: string };
-
-//// Machine generated types below this line:
-// Use `apollo server:codegen` to reconstruct
+// This is a machine generated file.
+// Use "apollo service:codegen" to regenerate.
 type PromiseOrValue<T> = Promise<T> | T;
+type Nullable<T> = T | null | undefined;
+type Index<
+  Map extends Record<string, any>,
+  Key extends string,
+  IfMissing
+> = Map[Key] extends object ? Map[Key] : IfMissing;
 
-type rNil = undefined | null;
-type tNil = null;
+export interface Resolvers<TContext = {}, TInternalReps = {}> {
+  Review?: ReviewResolver<TContext, TInternalReps>;
+  User?: UserResolver<TContext, TInternalReps>;
+  Product?: ProductResolver<TContext, TInternalReps>;
+}
 
-export type Resolvers<TContext = {}> = {
-  Review: ReviewResolver<TContext>;
-  User: UserResolver<TContext>;
-  Product: ProductResolver<TContext>;
+type ReviewRepresentation<TInternalReps extends Record<string, any>> = Index<
+  TInternalReps,
+  "Review",
+  {}
+> &
+  ({ id: string });
+
+export type Review<TInternalReps = {}> = ReviewRepresentation<TInternalReps> & {
+  id?: string;
+  body?: Nullable<string>;
+  author?: Nullable<User>;
+  product?: Nullable<Product>;
 };
+export interface ReviewResolver<TContext = {}, TInternalReps = {}> {
+  __resolveReference?: (
+    parent: ReviewRepresentation<{
+      /* explicity don't pass TInternalReps */
+    }>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<Review>>;
+  id?: (
+    parent: ReviewRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<string>;
+  body?: (
+    parent: ReviewRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<string>>;
+  author?: (
+    parent: ReviewRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<User>>;
+  product?: (
+    parent: ReviewRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<Product>>;
+}
 
-type ResolverFunction<TContext, TReturn, TParent = any, TArgs = {}> = (
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: any
-) => PromiseOrValue<TReturn>;
+type UserRepresentation<TInternalReps extends Record<string, any>> = Index<
+  TInternalReps,
+  "User",
+  {}
+> &
+  ({ id: string });
 
-export type ReviewResolver<TContext> = {
-  __resolveReference?: ResolverFunction<TContext, Review, ReviewRepresentation>;
-  body?: ResolverFunction<TContext, string | rNil, ReviewRepresentation>;
-  author?: ResolverFunction<
-    TContext,
-    UserRepresentation | rNil,
-    ReviewRepresentation
-  >;
-  product?: ResolverFunction<TContext, Product | rNil, ReviewRepresentation>;
+export type User<TInternalReps = {}> = UserRepresentation<TInternalReps> & {
+  id?: string;
+  username?: Nullable<string>;
+  numberOfReviews?: number;
+  reviews?: Nullable<Array<Nullable<Review>>>;
 };
+export interface UserResolver<TContext = {}, TInternalReps = {}> {
+  __resolveReference?: (
+    parent: UserRepresentation<{
+      /* explicity don't pass TInternalReps */
+    }>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<User>>;
+  username?: (
+    parent: UserRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<string>>;
+  numberOfReviews?: (
+    parent: UserRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<number>;
+  reviews?: (
+    parent: UserRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<Array<Nullable<Review>>>>;
+}
 
-export type UserResolver<TContext> = {
-  username?: ResolverFunction<TContext, string | rNil, UserRepresentation>;
-  numberOfReviews?: ResolverFunction<TContext, number, UserRepresentation>;
-  reviews?: ResolverFunction<
-    TContext,
-    (Review | rNil)[] | rNil,
-    UserRepresentation
-  >;
+type ProductRepresentation<TInternalReps extends Record<string, any>> = Index<
+  TInternalReps,
+  "Product",
+  {}
+> &
+  ({ upc: string });
+
+export type Product<TInternalReps = {}> = ProductRepresentation<
+  TInternalReps
+> & {
+  upc?: string;
+  reviews?: Nullable<Array<Nullable<Review>>>;
 };
-
-export type ProductResolver<TContext> = {
-  reviews?: ResolverFunction<
-    TContext,
-    (Review | rNil)[] | rNil,
-    ProductRepresentation
-  >;
-};
-
-export type ReviewRepresentation = {
-  id: string;
-} & ReviewInternalRepresentation;
-
-export type Review = ReviewRepresentation &
-  ReviewInternalRepresentation & {
-    body?: string | tNil;
-    author?: User | tNil;
-    product?: Product | tNil;
-  };
-
-export type UserRepresentation = { id: string };
-export type User = UserRepresentation & {
-  username?: string | tNil;
-  numberOfReviews?: number | tNil;
-  reviews?: (Review | tNil)[] | tNil;
-};
-
-export type ProductRepresentation = {
-  upc: string;
-};
-export type Product = ProductRepresentation & {
-  reviews?: (Review | tNil)[] | tNil;
-};
+export interface ProductResolver<TContext = {}, TInternalReps = {}> {
+  __resolveReference?: (
+    parent: ProductRepresentation<{
+      /* explicity don't pass TInternalReps */
+    }>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<Product>>;
+  reviews?: (
+    parent: ProductRepresentation<TInternalReps>,
+    args: {},
+    context: TContext,
+    info: any
+  ) => PromiseOrValue<Nullable<Array<Nullable<Review>>>>;
+}
